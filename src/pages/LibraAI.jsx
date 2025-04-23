@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import PageWrapper from "../components/PageWrapper";
 import { supabase } from "../lib/supabaseClient";
 
 function LibraAI() {
@@ -30,9 +31,7 @@ function LibraAI() {
     try {
       const response = await fetch("/api/gpt", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [
             {
@@ -75,14 +74,16 @@ function LibraAI() {
     }
 
     setLoading(false);
-  };
+  }
 
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-light px-6 py-12">
-        <section className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold mb-6 text-center">Libra AI Assistant</h1>
+      <main className="min-h-screen bg-light py-12">
+        <PageWrapper>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-primary">
+            Libra AI Assistant
+          </h1>
           <form onSubmit={handleSubmit} className="grid gap-4 bg-surface p-6 rounded shadow">
             {Object.entries(input).map(([key, value]) => (
               <input
@@ -109,7 +110,7 @@ function LibraAI() {
               {report}
             </div>
           )}
-        </section>
+        </PageWrapper>
       </main>
       <Footer />
     </>
