@@ -4,14 +4,22 @@ import Navbar from "./components/Navbar"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
+import Maintenance from "./pages/Maintenance" // ⬅️ aggiunto
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // 👇 qui attivi o disattivi la modalità manutenzione
+  const maintenanceMode = false // ⬅️ Cambia in true per mettere in pausa il sito
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true"
     setIsLoggedIn(loggedIn)
   }, [])
+
+  if (maintenanceMode) {
+    return <Maintenance />
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
