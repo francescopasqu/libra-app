@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { supabase } from "../lib/supabaseClient";
 
 function LibraAI() {
@@ -53,7 +54,6 @@ function LibraAI() {
         const aiOutput = data.choices[0].message.content;
         setReport(aiOutput);
 
-        // 🧠 Save to Supabase
         const { error } = await supabase.from("ai_reports").insert([
           {
             user_email: localStorage.getItem("user_email") || "anonymous",
@@ -80,35 +80,38 @@ function LibraAI() {
   return (
     <>
       <Navbar />
-      <div className="p-6 max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">Libra AI Assistant</h1>
-        <form onSubmit={handleSubmit} className="grid gap-4">
-          {Object.entries(input).map(([key, value]) => (
-            <input
-              key={key}
-              type="text"
-              name={key}
-              placeholder={key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
-              value={value}
-              onChange={handleChange}
-              className="p-2 border rounded"
-            />
-          ))}
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            {loading ? "Generating..." : "Generate Strategic Report"}
-          </button>
-        </form>
+      <main className="min-h-screen bg-light px-6 py-12">
+        <section className="max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold mb-6 text-center">Libra AI Assistant</h1>
+          <form onSubmit={handleSubmit} className="grid gap-4 bg-surface p-6 rounded shadow">
+            {Object.entries(input).map(([key, value]) => (
+              <input
+                key={key}
+                type="text"
+                name={key}
+                placeholder={key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
+                value={value}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded"
+              />
+            ))}
+            <button
+              type="submit"
+              className="bg-accent text-white px-4 py-2 rounded hover:bg-blue-500 transition"
+            >
+              {loading ? "Generating..." : "Generate Strategic Report"}
+            </button>
+          </form>
 
-        {report && (
-          <div className="mt-6 bg-gray-100 p-4 rounded whitespace-pre-wrap">
-            <h2 className="text-xl font-semibold mb-2">Strategic Report</h2>
-            {report}
-          </div>
-        )}
-      </div>
+          {report && (
+            <div className="mt-8 bg-white p-6 rounded shadow-md whitespace-pre-wrap">
+              <h2 className="text-xl font-semibold mb-4">Strategic Report</h2>
+              {report}
+            </div>
+          )}
+        </section>
+      </main>
+      <Footer />
     </>
   );
 }

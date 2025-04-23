@@ -1,14 +1,18 @@
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
 export default function Contact() {
-    return (
-        <>
+  return (
+    <>
       <Navbar />
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
-        <p>Email: info@libra.com</p>
-        <p>Instagram: @libra.consulting</p>
-      </div>
-      </>
-    );
-  }
-  
+      <main className="min-h-screen bg-light px-6 py-12">
+        <section className="max-w-3xl mx-auto text-center">
+          <h1 className="text-4xl font-bold mb-6">Contact Us</h1>
+          <p className="text-lg text-muted mb-2">Email: <a href="mailto:info@libra.com" className="text-accent underline">info@libra.com</a></p>
+          <p className="text-lg text-muted">Instagram: <a href="https://instagram.com/libra.consulting" target="_blank" className="text-accent underline">@libra.consulting</a></p>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}

@@ -1,12 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
   const navigate = useNavigate();
-
   const [localLoggedIn, setLocalLoggedIn] = useState(false);
 
-  // Se non riceve props, usa lo stato interno
   const isLoggedIn = propLoggedIn !== undefined ? propLoggedIn : localLoggedIn;
   const setIsLoggedIn = setPropLoggedIn !== undefined ? setPropLoggedIn : setLocalLoggedIn;
 
@@ -21,24 +19,29 @@ function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
     navigate("/");
   };
 
+  const linkClass = ({ isActive }) =>
+    isActive
+      ? "text-accent font-semibold underline transition-colors"
+      : "hover:text-accent transition-colors";
+
   return (
-    <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center shadow-md">
+    <nav className="bg-primary text-white px-6 py-4 flex justify-between items-center shadow-md">
       <h1 className="text-2xl font-semibold tracking-wide">Libra</h1>
       <div className="space-x-6 text-sm font-medium flex items-center">
-        <Link to="/" className="hover:text-accent transition-colors">Home</Link>
-        <Link to="/services" className="hover:text-accent transition-colors">Services</Link>
-        <Link to="/about" className="hover:text-accent transition-colors">About</Link>
-        <Link to="/book" className="hover:text-accent transition-colors">Book</Link>
-        <Link to="/contact" className="hover:text-accent transition-colors">Contact</Link>
-        <Link to="/libra-ai" className="hover:text-accent transition-colors">Libra AI</Link>
+        <NavLink to="/" className={linkClass}>Home</NavLink>
+        <NavLink to="/services" className={linkClass}>Services</NavLink>
+        <NavLink to="/about" className={linkClass}>About</NavLink>
+        <NavLink to="/book" className={linkClass}>Book</NavLink>
+        <NavLink to="/contact" className={linkClass}>Contact</NavLink>
+        <NavLink to="/libra-ai" className={linkClass}>Libra AI</NavLink>
 
         {!isLoggedIn ? (
-          <>
-            <Link to="/login" className="hover:text-accent transition-colors">Login</Link>
-            <Link to="/signup" className="hover:text-accent transition-colors">Signup</Link>
-          </>
+          <NavLink to="/auth" className={linkClass}>Login / Signup</NavLink>
         ) : (
-          <button onClick={handleLogout} className="hover:text-accent transition-colors">
+          <button
+            onClick={handleLogout}
+            className="hover:text-accent transition-colors"
+          >
             Logout
           </button>
         )}
