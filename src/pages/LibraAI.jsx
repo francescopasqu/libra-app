@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
 import { supabase } from "../lib/supabaseClient";
 
 function LibraAI() {
+  const navigate = useNavigate();
+
   const [input, setInput] = useState({
     company: "",
     industry: "",
@@ -19,6 +22,14 @@ function LibraAI() {
 
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // 🔐 Check login e redirect se non loggato
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      navigate("/auth");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -74,7 +85,7 @@ function LibraAI() {
     }
 
     setLoading(false);
-  }
+  };
 
   return (
     <>

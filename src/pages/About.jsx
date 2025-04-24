@@ -1,12 +1,10 @@
 // ✅ About.jsx
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
 
 export default function About() {
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-light text-text px-6 py-12">
         <PageWrapper>
           <section className="max-w-4xl mx-auto text-center">

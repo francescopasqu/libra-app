@@ -1,27 +1,32 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
 import { supabase } from "../lib/supabaseClient";
 
 export default function Auth({ setIsLoggedIn }) {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     if (!email || !password || (!isLogin && !confirmPassword)) {
       setError("Please fill in all fields.");
+      setLoading(false);
       return;
     }
 
     if (!isLogin && password !== confirmPassword) {
       setError("Passwords do not match.");
+      setLoading(false);
       return;
     }
 
@@ -34,17 +39,17 @@ export default function Auth({ setIsLoggedIn }) {
 
     if (result.error) {
       setError(result.error.message);
+      setLoading(false);
     } else {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("user_email", email);
       setIsLoggedIn(true);
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     }
   };
 
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-light py-12">
         <PageWrapper>
           <div className="flex flex-col items-center justify-center h-full">
@@ -52,6 +57,7 @@ export default function Auth({ setIsLoggedIn }) {
               <h1 className="text-2xl font-bold mb-4 text-center">
                 {isLogin ? "Login to Libra" : "Create an Account"}
               </h1>
+
               <form onSubmit={handleSubmit} className="grid gap-4">
                 <input
                   type="email"
@@ -81,12 +87,15 @@ export default function Auth({ setIsLoggedIn }) {
                 )}
                 <button
                   type="submit"
-                  className="bg-accent text-white py-2 rounded hover:bg-blue-500 transition"
+                  disabled={loading}
+                  className={`bg-accent text-white py-2 rounded transition ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-500"}`}
                 >
-                  {isLogin ? "Login" : "Sign Up"}
+                  {loading ? "Loading..." : isLogin ? "Login" : "Sign Up"}
                 </button>
               </form>
-              {error && <p className="text-red-500 mt-2">{error}</p>}
+
+              {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
+
               <div className="text-sm text-center mt-4 text-muted">
                 {isLogin ? (
                   <>

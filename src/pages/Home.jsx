@@ -1,12 +1,27 @@
-import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
 import { motion } from "framer-motion";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+  }, []);
+
+  const handleClick = () => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    } else {
+      navigate("/auth");
+    }
+  };
+
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-light text-text">
         <PageWrapper>
           <motion.div
@@ -21,12 +36,12 @@ export default function Home() {
             <p className="text-lg text-muted max-w-xl mb-8">
               The new era of strategic intelligence for small businesses.
             </p>
-            <a
-              href="/libra-ai"
+            <button
+              onClick={handleClick}
               className="bg-accent text-white px-6 py-3 rounded hover:bg-blue-500 transition font-medium"
             >
               Launch the AI Assistant
-            </a>
+            </button>
           </motion.div>
         </PageWrapper>
       </main>

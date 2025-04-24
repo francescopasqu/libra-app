@@ -1,5 +1,4 @@
 // ✅ Services.jsx
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
 import { Briefcase, Activity, BarChart3 } from "lucide-react";
@@ -7,7 +6,6 @@ import { Briefcase, Activity, BarChart3 } from "lucide-react";
 export default function Services() {
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-light text-text px-6 py-12">
         <PageWrapper>
           <h1 className="text-4xl font-bold text-center mb-10">Our Services</h1>

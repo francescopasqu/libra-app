@@ -29,18 +29,26 @@ function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
   return (
     <>
       <nav className="bg-primary text-white px-6 py-4 flex justify-between items-center shadow-md">
-        <h1 className="text-2xl font-bold tracking-wide">Libra</h1>
+        <h1 className="text-2xl font-bold tracking-wide">
+          <NavLink to="/" className="hover:text-accent">Libra</NavLink>
+        </h1>
         <div className="hidden md:flex space-x-6 text-sm font-medium items-center">
-          <NavLink to="/" className={linkClass}>Home</NavLink>
-          <NavLink to="/services" className={linkClass}>Services</NavLink>
-          <NavLink to="/about" className={linkClass}>About</NavLink>
-          <NavLink to="/book" className={linkClass}>Book</NavLink>
-          <NavLink to="/contact" className={linkClass}>Contact</NavLink>
-          <NavLink to="/libra-ai" className={linkClass}>Libra AI</NavLink>
           {!isLoggedIn ? (
-            <NavLink to="/auth" className={linkClass}>Login</NavLink>
+            <>
+              <NavLink to="/" className={linkClass}>Home</NavLink>
+              <NavLink to="/services" className={linkClass}>Services</NavLink>
+              <NavLink to="/about" className={linkClass}>About</NavLink>
+              <NavLink to="/book" className={linkClass}>Book</NavLink>
+              <NavLink to="/contact" className={linkClass}>Contact</NavLink>
+              <NavLink to="/auth" className={linkClass}>Login / Signup</NavLink>
+            </>
           ) : (
-            <button onClick={handleLogout} className="hover:text-accent transition-colors">Logout</button>
+            <>
+              <NavLink to="/dashboard" className={linkClass}>Dashboard</NavLink>
+              <NavLink to="/libra-ai" className={linkClass}>Libra AI</NavLink>
+              <NavLink to="/services" className={linkClass}>Services</NavLink>
+              <button onClick={handleLogout} className="hover:text-accent transition-colors">Logout</button>
+            </>
           )}
         </div>
         <div className="md:hidden">
@@ -60,16 +68,22 @@ function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
               <X />
             </button>
             <nav className="flex flex-col items-start space-y-6 mt-10 text-white text-lg font-medium">
-              <NavLink to="/" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
-              <NavLink to="/services" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Services</NavLink>
-              <NavLink to="/about" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
-              <NavLink to="/book" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Book</NavLink>
-              <NavLink to="/contact" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Contact</NavLink>
-              <NavLink to="/libra-ai" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Libra AI</NavLink>
               {!isLoggedIn ? (
-                <NavLink to="/auth" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Login</NavLink>
+                <>
+                  <NavLink to="/" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
+                  <NavLink to="/services" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Services</NavLink>
+                  <NavLink to="/about" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
+                  <NavLink to="/book" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Book</NavLink>
+                  <NavLink to="/contact" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Contact</NavLink>
+                  <NavLink to="/auth" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Login / Signup</NavLink>
+                </>
               ) : (
-                <button onClick={handleLogout} className="hover:text-accent transition-colors">Logout</button>
+                <>
+                  <NavLink to="/dashboard" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Dashboard</NavLink>
+                  <NavLink to="/libra-ai" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Libra AI</NavLink>
+                  <NavLink to="/services" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Services</NavLink>
+                  <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="hover:text-accent transition-colors">Logout</button>
+                </>
               )}
             </nav>
           </div>

@@ -1,12 +1,10 @@
 // ✅ Contact.jsx
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
 
 export default function Contact() {
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-light px-6 py-12">
         <PageWrapper>
           <section className="max-w-3xl mx-auto text-center">
