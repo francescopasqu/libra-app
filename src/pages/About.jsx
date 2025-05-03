@@ -1,20 +1,87 @@
-// ✅ About.jsx
+// ✅ About.jsx - SUPREME VERSION
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
+import { Sparkles, Rocket, HeartHandshake } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function About() {
   return (
     <>
-      <main className="min-h-screen bg-light text-text px-6 py-12">
+      <main className="min-h-screen bg-light text-text px-6 py-16">
         <PageWrapper>
+          {/* 🔹 WHY LIBRA EXISTS */}
+          <section className="max-w-5xl mx-auto text-center mb-24">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-5xl font-bold mb-6"
+            >
+              Why Libra Exists
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-lg text-muted max-w-3xl mx-auto"
+            >
+              Libra was founded with a belief: powerful business strategy shouldn't be a luxury.
+              Every entrepreneur deserves clarity, structure, and momentum — not just those with big budgets or big teams.
+            </motion.p>
+          </section>
+
+          {/* 🔹 CORE BELIEFS */}
+          <section className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-left mb-28">
+            {beliefsData.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.6 }}
+                className="bg-surface p-6 rounded-2xl shadow hover:shadow-lg hover:scale-[1.02] transition cursor-pointer"
+              >
+                {item.icon}
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-muted">{item.text}</p>
+              </motion.div>
+            ))}
+          </section>
+
+          {/* 🔹 WHO WE ARE */}
           <section className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl font-bold mb-4">About Libra</h1>
-            <p className="text-lg text-muted mb-6">
-              My name is Francesco Pasquariello, and I founded Libra to help entrepreneurs and SMEs scale intelligently and sustainably.
-            </p>
-            <p className="text-lg text-muted">
-              With a background in engineering and strategy, I built Libra as a platform where businesses can receive real-time insights, tailored advice, and innovative AI-powered tools to grow smarter—not harder.
-            </p>
+            <motion.h2
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl font-bold mb-6"
+            >
+              Who We Are
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-lg text-muted mb-6"
+            >
+              Libra is a strategy-first platform created to empower entrepreneurs, amplify underdog businesses, and unlock the true potential of bold ideas.
+              With roots in innovation hubs across Milan and Amsterdam, our DNA blends operational excellence with creative disruption.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="text-lg text-muted mb-8"
+            >
+              Our mission is to democratize access to world-class strategic guidance, making it intuitive, actionable, and accessible — for all those who dare to build.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="text-lg font-semibold text-accent"
+            >
+              Libra isn't just a service. It's a movement for the builders of tomorrow.
+            </motion.p>
           </section>
         </PageWrapper>
       </main>
@@ -22,3 +89,21 @@ export default function About() {
     </>
   );
 }
+
+const beliefsData = [
+  {
+    title: "Empowering Visionaries",
+    text: "Too many great ideas fade because they lack structure or support. Libra transforms intuition into execution.",
+    icon: <Sparkles className="w-8 h-8 text-accent mb-4" />,
+  },
+  {
+    title: "Making Strategy Simple",
+    text: "We decode complex challenges into clear, actionable steps — blending human insight with AI precision.",
+    icon: <Rocket className="w-8 h-8 text-accent mb-4" />,
+  },
+  {
+    title: "Democratizing Expertise",
+    text: "High-level consulting should be accessible to every founder — not just Fortune 500 giants.",
+    icon: <HeartHandshake className="w-8 h-8 text-accent mb-4" />,
+  },
+];

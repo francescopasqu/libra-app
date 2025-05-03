@@ -2,29 +2,23 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
-function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
+function Navbar() {
   const navigate = useNavigate();
-  const [localLoggedIn, setLocalLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const isLoggedIn = propLoggedIn !== undefined ? propLoggedIn : localLoggedIn;
-  const setIsLoggedIn = setPropLoggedIn !== undefined ? setPropLoggedIn : setLocalLoggedIn;
 
   useEffect(() => {
     const status = localStorage.getItem("isLoggedIn") === "true";
-    setLocalLoggedIn(status);
+    setIsLoggedIn(status);
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-    navigate("/");
-  };
 
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-accent font-semibold underline transition-colors"
       : "hover:text-accent transition-colors";
+
+  // Nasconde la navbar se l’utente è loggato
+  if (isLoggedIn) return null;
 
   return (
     <>
@@ -33,23 +27,12 @@ function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
           <NavLink to="/" className="hover:text-accent">Libra</NavLink>
         </h1>
         <div className="hidden md:flex space-x-6 text-sm font-medium items-center">
-          {!isLoggedIn ? (
-            <>
-              <NavLink to="/" className={linkClass}>Home</NavLink>
-              <NavLink to="/services" className={linkClass}>Services</NavLink>
-              <NavLink to="/about" className={linkClass}>About</NavLink>
-              <NavLink to="/book" className={linkClass}>Book</NavLink>
-              <NavLink to="/contact" className={linkClass}>Contact</NavLink>
-              <NavLink to="/auth" className={linkClass}>Login / Signup</NavLink>
-            </>
-          ) : (
-            <>
-              <NavLink to="/dashboard" className={linkClass}>Dashboard</NavLink>
-              <NavLink to="/libra-ai" className={linkClass}>Libra AI</NavLink>
-              <NavLink to="/services" className={linkClass}>Services</NavLink>
-              <button onClick={handleLogout} className="hover:text-accent transition-colors">Logout</button>
-            </>
-          )}
+          <NavLink to="/" className={linkClass}>Home</NavLink>
+          <NavLink to="/services" className={linkClass}>Services</NavLink>
+          <NavLink to="/about" className={linkClass}>About</NavLink>
+          <NavLink to="/book" className={linkClass}>Book</NavLink>
+          <NavLink to="/contact" className={linkClass}>Contact</NavLink>
+          <NavLink to="/auth" className={linkClass}>Login / Signup</NavLink>
         </div>
         <div className="md:hidden">
           <button onClick={() => setIsMobileMenuOpen(true)}>
@@ -58,6 +41,7 @@ function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
         </div>
       </nav>
 
+      {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-6 animate-fadeIn">
           <div className="bg-primary w-full max-w-xs p-6 rounded-2xl shadow-2xl relative animate-slideIn">
@@ -68,23 +52,12 @@ function Navbar({ isLoggedIn: propLoggedIn, setIsLoggedIn: setPropLoggedIn }) {
               <X />
             </button>
             <nav className="flex flex-col items-start space-y-6 mt-10 text-white text-lg font-medium">
-              {!isLoggedIn ? (
-                <>
-                  <NavLink to="/" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
-                  <NavLink to="/services" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Services</NavLink>
-                  <NavLink to="/about" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
-                  <NavLink to="/book" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Book</NavLink>
-                  <NavLink to="/contact" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Contact</NavLink>
-                  <NavLink to="/auth" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Login / Signup</NavLink>
-                </>
-              ) : (
-                <>
-                  <NavLink to="/dashboard" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Dashboard</NavLink>
-                  <NavLink to="/libra-ai" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Libra AI</NavLink>
-                  <NavLink to="/services" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Services</NavLink>
-                  <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="hover:text-accent transition-colors">Logout</button>
-                </>
-              )}
+              <NavLink to="/" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
+              <NavLink to="/services" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Services</NavLink>
+              <NavLink to="/about" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
+              <NavLink to="/book" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Book</NavLink>
+              <NavLink to="/contact" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Contact</NavLink>
+              <NavLink to="/auth" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Login / Signup</NavLink>
             </nav>
           </div>
         </div>

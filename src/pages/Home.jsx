@@ -22,23 +22,26 @@ export default function Home() {
 
   return (
     <>
-      <main className="min-h-screen bg-light text-text">
+      <main className="relative min-h-screen overflow-hidden bg-light text-[#1d3557]">
+        {/* Background animato tech elegante */}
+        <div className="absolute top-0 left-0 w-full h-full -z-10 animate-gradient bg-gradient-radial opacity-10" />
+
         <PageWrapper>
           <motion.div
-            className="flex flex-col items-center text-center pt-32"
+            className="flex flex-col items-center text-center pt-32 px-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-5xl font-bold mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4">
               Welcome to <span className="text-accent">Libra</span>
             </h1>
-            <p className="text-lg text-muted max-w-xl mb-8">
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mb-10 animate-fadeIn">
               The new era of strategic intelligence for small businesses.
             </p>
             <button
               onClick={handleClick}
-              className="bg-accent text-white px-6 py-3 rounded hover:bg-blue-500 transition font-medium"
+              className="bg-accent text-white px-8 py-4 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition duration-300 font-semibold text-lg"
             >
               Launch the AI Assistant
             </button>

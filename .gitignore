@@ -25,4 +25,6 @@ dist-ssr
 
 # .gitignore
 .env
+.env.production.env
 .env.production
+.vercel
