@@ -1,226 +1,271 @@
-// ✅ Services.jsx - FORZA SUPREMA COMPLETA
-import { useRef, useEffect } from "react";
-import Footer from "../components/Footer";
+// src/pages/Services.jsx
+import { useEffect } from "react";
 import PageWrapper from "../components/PageWrapper";
 import {
-  Briefcase,
-  Activity,
-  BarChart3,
-  Puzzle,
-  BellDot,
-  Bot,
-  FlaskConical,
+  Stethoscope,
+  BarChart,
+  Blocks,
+  Compass,
   Radar,
-  GraduationCap,
+  Route,
+  Workflow,
+  FileText,
+  Target
 } from "lucide-react";
-import { motion, useAnimation, useInView } from "framer-motion";
+
+const services = [
+  {
+    id: "business-check-up",
+    title: "Business Check-up",
+    icon: <Stethoscope className="w-8 h-8 text-accent" />,
+    description: "A full check-up to understand what’s working and what’s not.",
+    bullets: [
+      "Review of your current business model, numbers, and operations",
+      "SWOT analysis across strategy, finance, and execution",
+      "Identification of blind spots, contradictions, and hidden risks"
+    ],
+    outcomes: [
+      "Clear picture of where you stand today",
+      "Prioritized list of issues and opportunities",
+      "Foundation for every next strategic move"
+    ]
+  },
+  {
+    id: "kpi-monitoring",
+    title: "KPI Monitoring",
+    icon: <BarChart className="w-8 h-8 text-accent" />,
+    description: "Identify what’s growing and what’s collapsing over time.",
+    bullets: [
+      "Define the right KPIs for your stage and industry",
+      "Set up simple routines for tracking and reporting",
+      "Create a rhythm of review to read signals early"
+    ],
+    outcomes: [
+      "Better, faster decisions based on facts",
+      "Early warning on problems and bottlenecks",
+      "Shared visibility for founders and teams"
+    ]
+  },
+  {
+    id: "business-model-redesign",
+    title: "Business Model Redesign",
+    icon: <Blocks className="w-8 h-8 text-accent" />,
+    description: "Rebuild your model, one piece at a time.",
+    bullets: [
+      "Map how you create, deliver, and capture value today",
+      "Redesign value proposition, revenue logic, and cost structure",
+      "Test alternative scenarios before committing resources"
+    ],
+    outcomes: [
+      "Stronger value proposition and positioning",
+      "More scalable and resilient business model",
+      "Clearer narrative for investors and partners"
+    ]
+  },
+  {
+    id: "strategic-consulting",
+    title: "Strategic Consulting",
+    icon: <Compass className="w-8 h-8 text-accent" />,
+    description: "Method, focus, and a clear growth path for your business.",
+    bullets: [
+      "Clarify vision, objectives, and non-negotiables",
+      "Translate strategy into priorities, projects, and focus areas",
+      "Support key decisions with structured reasoning"
+    ],
+    outcomes: [
+      "Alignment between vision and day-to-day execution",
+      "Momentum instead of constant firefighting",
+      "A sparring partner for critical decisions"
+    ]
+  },
+  {
+    id: "market-signals",
+    title: "Market Signals",
+    icon: <Radar className="w-8 h-8 text-accent" />,
+    description: "Catch weak signals before they become tsunamis.",
+    bullets: [
+      "Scan trends, competitors, and customer behaviour",
+      "Translate signals into risks and opportunities",
+      "Discuss strategic implications for your business"
+    ],
+    outcomes: [
+      "Foresight on what’s coming next",
+      "Ability to adapt instead of react",
+      "Better timing for launches and investments"
+    ]
+  },
+  {
+    id: "strategic-roadmap",
+    title: "Strategic Roadmap",
+    icon: <Route className="w-8 h-8 text-accent" />,
+    description: "A clear path forward from vision to execution.",
+    bullets: [
+      "Synthesize insights from check-up and diagnosis",
+      "Define milestones, timelines, and ownership",
+      "Design a simple review and accountability system"
+    ],
+    outcomes: [
+      "Concrete plan instead of scattered ideas",
+      "Everyone knows what happens, when, and why",
+      "Visible progress you can track over time"
+    ]
+  }
+];
+
+const processFlow = [
+  { label: "1. Check-up", desc: "Understand the current state" },
+  { label: "2. Diagnosis", desc: "Identify the core issues" },
+  { label: "3. Strategy", desc: "Design a growth path" },
+  { label: "4. Action", desc: "Implement with precision" },
+  { label: "5. Follow-up", desc: "Review, adapt, and grow" }
+];
+
+const coreTools = [
+  { icon: <Workflow className="w-5 h-5" />, label: "Business Model Canvas" },
+  { icon: <Target className="w-5 h-5" />, label: "SWOT & risk mapping" },
+  { icon: <BarChart className="w-5 h-5" />, label: "KPI & dashboard design" },
+  { icon: <FileText className="w-5 h-5" />, label: "Strategic memos & reports" },
+  { icon: <Compass className="w-5 h-5" />, label: "OKR & goal setting" },
+  { icon: <Route className="w-5 h-5" />, label: "Roadmaps & execution plans" }
+];
 
 export default function Services() {
-  const refs = Object.fromEntries(
-    servicesData.map(({ title }) => [title, useRef(null)])
-  );
-
-  const scrollToSection = (section) => {
-    refs[section]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  return (
-    <>
-      <main className="min-h-screen bg-light text-text px-6 py-20">
-        <PageWrapper>
-          <h1 className="text-4xl font-extrabold text-center text-primary mb-16">Our Services</h1>
-
-          {/* 🔹 Blocchi servizi */}
-          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mb-24">
-            {servicesData.map(({ icon, title, description }) => (
-              <ServiceCard
-                key={title}
-                icon={icon}
-                title={title}
-                description={description}
-                onClick={() => scrollToSection(title)}
-              />
-            ))}
-          </div>
-
-          {/* 🔹 Sezioni dettagliate */}
-          <div className="max-w-5xl mx-auto space-y-32">
-            {servicesData.map(({ title, longDescription }, idx) => (
-              <AnimatedSection key={title} innerRef={refs[title]} delay={idx * 0.1}>
-                <div className="text-center mb-8">
-                  <h2 className="text-3xl font-bold text-primary">{title}</h2>
-                  <motion.hr
-                    className="w-16 h-1 bg-accent rounded mx-auto mt-4"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                  />
-                </div>
-
-                <div className="space-y-6 text-muted text-left max-w-3xl mx-auto">
-                  <p className="text-lg leading-relaxed">{longDescription.intro}</p>
-                  <ul className="space-y-4 text-base">
-                    <li>
-                      <span className="text-accent font-semibold transition hover:text-primary cursor-pointer">Where:</span> {longDescription.where}
-                    </li>
-                    <li>
-                      <span className="text-accent font-semibold transition hover:text-primary cursor-pointer">How:</span> {longDescription.how}
-                    </li>
-                    <li>
-                      <span className="text-accent font-semibold transition hover:text-primary cursor-pointer">Benefits:</span> {longDescription.benefits}
-                    </li>
-                  </ul>
-                </div>
-
-                {idx !== servicesData.length - 1 && (
-                  <div className="w-3/5 mx-auto h-[1px] bg-gray-300 mt-16" />
-                )}
-              </AnimatedSection>
-            ))}
-          </div>
-        </PageWrapper>
-      </main>
-      <Footer />
-    </>
-  );
-}
-
-// 🔹 Card per ogni servizio
-function ServiceCard({ icon, title, description, onClick }) {
-  return (
-    <div
-      onClick={onClick}
-      className="bg-surface p-6 rounded-lg shadow hover:shadow-lg transition transform hover:scale-[1.02] cursor-pointer flex flex-col items-start"
-    >
-      {icon}
-      <h2 className="text-xl font-semibold mb-2">{title}</h2>
-      <p className="text-muted">{description}</p>
-    </div>
-  );
-}
-
-// 🔹 Sezione animata
-function AnimatedSection({ children, innerRef, delay = 0 }) {
-  const controls = useAnimation();
-  const inView = useInView(innerRef, { once: true });
-
   useEffect(() => {
-    if (inView) {
-      controls.start({ opacity: 1, y: 0 });
-    }
-  }, [controls, inView]);
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <motion.section
-      ref={innerRef}
-      initial={{ opacity: 0, y: 30 }}
-      animate={controls}
-      transition={{ duration: 0.8, ease: "easeOut", delay }}
-    >
-      {children}
-    </motion.section>
+    <PageWrapper>
+      <div className="py-12 px-4 md:px-20 bg-slate-50 min-h-screen">
+        {/* Header */}
+        <h1 className="text-4xl font-bold text-center mb-3">Our Services</h1>
+        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-10">
+          Libra offers a structured set of strategic services designed to work
+          together. You can start with a single check-up or build a full
+          end-to-end engagement.
+        </p>
+
+        {/* Overview cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {services.map((service) => (
+            <a
+              key={service.id}
+              href={`#${service.id}`}
+              className="bg-white shadow-md rounded-2xl p-6 transition hover:shadow-xl border border-slate-200 hover:border-accent"
+            >
+              <div className="mb-3">
+                {service.icon}
+              </div>
+              <h3 className="text-lg font-semibold mb-1 text-[#1d3557]">
+                {service.title}
+              </h3>
+              <p className="text-gray-600 text-sm leading-snug">
+                {service.description}
+              </p>
+            </a>
+          ))}
+        </div>
+
+        {/* Process section */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-4">Our Strategic Process</h2>
+          <p className="text-gray-600 max-w-3xl mx-auto">
+            We simplify complexity. Our model guides your business from
+            assessment to sustainable transformation — with clarity, not chaos.
+          </p>
+        </div>
+
+        <div className="relative flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 p-6 bg-white border border-slate-200 rounded-2xl shadow-md mb-16">
+          {processFlow.map((step, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center text-center relative w-full md:w-1/5"
+            >
+              <div className="text-accent text-xl font-bold mb-1">
+                {step.label}
+              </div>
+              <p className="text-sm text-gray-600 mb-1">{step.desc}</p>
+              {index < processFlow.length - 1 && (
+                <div className="hidden md:block absolute right-0 top-1/2 transform -translate-y-1/2">
+                  <div className="w-6 h-6 border-t-2 border-r-2 border-accent rotate-45"></div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Shared tools / frameworks */}
+        <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-slate-200 mb-12 max-w-4xl mx-auto">
+          <h3 className="text-xl font-bold mb-2 text-center text-[#1d3557]">
+            Frameworks & Tools We Use
+          </h3>
+          <p className="text-gray-600 text-sm text-center mb-4 max-w-2xl mx-auto">
+            Behind every engagement there is a clear method. We combine classic
+            management frameworks with pragmatic tools tailored to your
+            business.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700 mt-2">
+            {coreTools.map((tool) => (
+              <div
+                key={tool.label}
+                className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2"
+              >
+                <div className="text-accent">{tool.icon}</div>
+                <span>{tool.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Detailed sections – McKinsey-style blocks */}
+        {services.map((service) => (
+          <div
+            key={service.id}
+            id={service.id}
+            className="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-slate-200 mb-10"
+          >
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-sky-100">
+                {service.icon}
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-[#1d3557]">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 text-sm mt-1">
+                  {service.description} We help you apply this with method,
+                  clarity, and long-term thinking.
+                </p>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+              <div>
+                <h4 className="font-semibold mb-2 text-[#1d3557]">
+                  What we do
+                </h4>
+                <ul className="list-disc list-inside space-y-1">
+                  {service.bullets.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="md:pl-6 md:border-l md:border-slate-200">
+                <h4 className="font-semibold mb-2 text-[#1d3557]">
+                  What you get
+                </h4>
+                <ul className="list-disc list-inside space-y-1">
+                  {service.outcomes.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </PageWrapper>
   );
 }
-
-// 🔹 Dati dei servizi
-const servicesData = [
-  {
-    title: "Strategic Consulting",
-    icon: <Briefcase className="w-8 h-8 text-accent mb-4" />,
-    description: "Personalized advice to scale your business with clarity and confidence.",
-    longDescription: {
-      intro: "Personalized consulting sessions to analyze your current business model, define strategic priorities, and build a clear, actionable growth plan.",
-      where: "Online consultations via video call.",
-      how: "We assess your positioning, strengths, and gaps to design a custom scaling strategy.",
-      benefits: "Gain clarity, define realistic goals, and accelerate growth with expert strategic guidance.",
-    },
-  },
-  {
-    title: "Automated Business Analysis",
-    icon: <Activity className="w-8 h-8 text-accent mb-4" />,
-    description: "AI-powered insights into your operations, profitability and potential.",
-    longDescription: {
-      intro: "Automate the analysis of your financial and operational data to gain actionable insights.",
-      where: "Via your Libra Dashboard and reports.",
-      how: "We integrate data sources and provide AI-powered analysis and recommendations.",
-      benefits: "Understand performance drivers, identify opportunities, and optimize profitability effortlessly.",
-    },
-  },
-  {
-    title: "AI Dashboard",
-    icon: <BarChart3 className="w-8 h-8 text-accent mb-4" />,
-    description: "An interactive dashboard to track performance and uncover opportunities.",
-    longDescription: {
-      intro: "A dynamic dashboard to track KPIs, trends, and performance in real-time.",
-      where: "Available inside your Libra account, 24/7.",
-      how: "Automatically tracks your KPIs based on your business data and goals.",
-      benefits: "Immediate visibility, proactive decision-making, and constant performance optimization.",
-    },
-  },
-  {
-    title: "Business Model Rebuilding",
-    icon: <Puzzle className="w-8 h-8 text-accent mb-4" />,
-    description: "Reinvent your business model with AI-guided suggestions and interactive frameworks.",
-    longDescription: {
-      intro: "We help you rethink, improve or pivot your business model for long-term success.",
-      where: "Workshops and personalized sessions with AI support.",
-      how: "Frameworks and simulations to design, test and validate new strategies.",
-      benefits: "Innovative, scalable and future-proof business models tailored to your needs.",
-    },
-  },
-  {
-    title: "Performance & KPI Alerts",
-    icon: <BellDot className="w-8 h-8 text-accent mb-4" />,
-    description: "Real-time metrics with smart alerts to help you stay on top of your performance.",
-    longDescription: {
-      intro: "Stay informed about critical changes in your KPIs with smart alerts.",
-      where: "Real-time notifications in your Libra Dashboard.",
-      how: "Set thresholds and receive alerts for underperformance or exceptional results.",
-      benefits: "Prevent problems before they escalate, seize opportunities faster, and optimize agility.",
-    },
-  },
-  {
-    title: "AI Business Coach",
-    icon: <Bot className="w-8 h-8 text-accent mb-4" />,
-    description: "Your digital chief of staff, available 24/7 to guide your strategic decisions.",
-    longDescription: {
-      intro: "An AI-powered business assistant to support your daily and strategic decisions.",
-      where: "Accessible 24/7 from your Libra account.",
-      how: "Chat-based AI trained on your data and strategic frameworks.",
-      benefits: "Immediate support, informed decisions, constant strategic alignment.",
-    },
-  },
-  {
-    title: "Strategy Lab",
-    icon: <FlaskConical className="w-8 h-8 text-accent mb-4" />,
-    description: "Test ideas, simulate outcomes, and explore strategic scenarios with confidence.",
-    longDescription: {
-      intro: "A virtual lab to test your ideas and predict their potential outcomes.",
-      where: "Inside your Libra Strategy Lab area.",
-      how: "Scenario modeling and AI-powered simulations.",
-      benefits: "Better risk management, smarter bets, and data-driven strategic planning.",
-    },
-  },
-  {
-    title: "Market & Industry Intelligence",
-    icon: <Radar className="w-8 h-8 text-accent mb-4" />,
-    description: "Stay ahead of trends and competitors with real-time insights and alerts.",
-    longDescription: {
-      intro: "Real-time market and competitor monitoring for smarter moves.",
-      where: "Libra Market Intelligence reports and dashboards.",
-      how: "Collects and analyzes external data to predict trends and shifts.",
-      benefits: "Proactive strategy adjustments, opportunity spotting, competitive edge.",
-    },
-  },
-  {
-    title: "Learning Center (beta)",
-    icon: <GraduationCap className="w-8 h-8 text-accent mb-4" />,
-    description: "Access curated resources, templates, and video guides to boost your business skills.",
-    longDescription: {
-      intro: "Boost your skills and knowledge with curated learning resources.",
-      where: "Libra Learning Center inside your Dashboard.",
-      how: "Access to templates, guides, video lessons tailored to business growth.",
-      benefits: "Continuous learning, business growth acceleration, practical upskilling.",
-    },
-  },
-];

@@ -2,42 +2,65 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 import PageWrapper from "../components/PageWrapper";
-import { supabase } from "../supabaseClient"; // Assicurati di averlo!
-import { toast } from "react-hot-toast";
 
 const questions = [
-  { question: "What is your company's name?", type: "text" },
-  { question: "How long has your business been operating?", type: "choice", options: ["Less than 1 year", "1–3 years", "3–5 years", "More than 5 years"] },
-  { question: "How many people work in your business (including you)?", type: "choice", options: ["Just me", "2–5", "6–10", "More than 10"] },
-  { question: "In which industry does your company operate?", type: "text" },
-  { question: "What is your main sales model?", type: "choice", options: ["B2B", "B2C", "Mixed"] },
-  { question: "What do you mainly sell?", type: "choice", options: ["Physical products", "Services", "Digital products", "SaaS/subscriptions"] },
-  { question: "What is your best-selling product or service?", type: "text" },
-  { question: "What do your customers appreciate the most?", type: "choice", options: ["Competitive pricing", "Quality", "Reliability", "Flexibility", "Speed", "Prestige/Experience"] },
-  { question: "How do new customers mainly find you?", type: "choice", options: ["Word of mouth", "Social media", "Google/Online ads", "Events", "Partnerships"] },
-  { question: "How do you deliver your products/services?", type: "choice", options: ["In-person", "Online", "Physical delivery"] },
-  { question: "How do you receive payments?", type: "choice", options: ["Direct payment", "Bank transfer/invoice", "Online payment (Stripe, PayPal)"] },
-  { question: "What are your main weekly activities?", type: "choice", options: ["Production/Delivery", "Logistics/Shipping", "Order management/Admin", "Marketing/Promotion", "Team management"] },
-  { question: "Do you have active collaborators?", type: "choice", options: ["I work alone", "I have collaborators"] },
-  { question: "What are your main recurring costs?", type: "choice", options: ["Rent/Utilities", "Staff/Collaborators", "Raw materials/Goods", "Consulting/External services"] },
-  { question: "Do you manage cash flow?", type: "choice", options: ["Yes, with software", "Yes, with Excel", "No"] },
-  { question: "Your current annual revenue?", type: "choice", options: ["Up to 50k", "50k–100k", "100k–300k", "300k–1M", "Over 1M"] },
-  { question: "Is your business profitable?", type: "choice", options: ["Yes, with positive margins", "Yes, but low margins", "No, investing to grow", "No, struggling"] },
-  { question: "What is your biggest current challenge?", type: "text" },
-  { question: "Which area would you urgently like to improve?", type: "text" },
-  { question: "Do you have a growth direction in mind?", type: "text" },
-  { question: "How do you feel about managing your business?", type: "choice", options: ["In control", "A bit confused", "Want to improve but don't know where to start"] },
-  { question: "If you could improve one area in 30 days, what would it be?", type: "text" },
-  { question: "Where do you see your business in 6 months?", type: "text" },
-  { question: "If you had a weekly assistant, what should they do for you?", type: "text" },
-  { question: "Are you interested in a personal dashboard and weekly action plan?", type: "choice", options: ["Yes", "Only if simple", "Only if useful", "No"] },
+  // SEZIONE 1 – Profilo dell’attività
+  { question: "Come si chiama la tua azienda?", type: "text" },
+  { question: "Da quanto tempo è attiva?", type: "choice", options: ["Meno di 1 anno", "1–3 anni", "3–5 anni", "Più di 5 anni"] },
+  { question: "Quante persone ci lavorano attualmente?", type: "choice", options: ["Solo io", "2–5", "6–10", "Più di 10"] },
+  { question: "In che settore opera la tua azienda?", type: "text" },
+  { question: "Il tuo modello di vendita è principalmente?", type: "choice", options: ["B2B", "B2C", "Misto"] },
+  { question: "Cosa vendi principalmente?", type: "choice", options: ["Prodotti fisici", "Servizi", "Prodotti digitali", "SaaS o abbonamenti"] },
+
+  // SEZIONE 2 – Posizionamento e canali
+  { question: "Qual è il prodotto o servizio più venduto oggi?", type: "text" },
+  { question: "Cosa apprezzano di più i tuoi clienti?", type: "choice", options: ["Prezzo competitivo", "Qualità", "Affidabilità", "Flessibilità", "Velocità", "Esperienza/prestigio"] },
+  { question: "Come ti trovano principalmente i nuovi clienti?", type: "choice", options: ["Passaparola", "Social media", "Google/pubblicità online", "Eventi", "Collaborazioni"] },
+  { question: "Come fornisci i tuoi prodotti o servizi?", type: "choice", options: ["In presenza", "Online", "Consegna fisica"] },
+  { question: "Come ricevi i pagamenti dai tuoi clienti?", type: "choice", options: ["Pagamento diretto", "Bonifico o fattura", "Online (Stripe, PayPal, ecc.)"] },
+
+  // SEZIONE 3 – Organizzazione e attività
+  { question: "Quali sono le attività principali che svolgi ogni settimana?", type: "choice", options: ["Produzione", "Spedizione/logistica", "Gestione ordini", "Marketing", "Coordinamento team"] },
+  { question: "Hai collaboratori attivi o fai tutto da solo?", type: "choice", options: ["Faccio tutto da solo", "Ho 1 o più collaboratori"] },
+  { question: "Quali sono i principali costi ricorrenti della tua attività?", type: "choice", options: ["Affitto/bollette", "Personale", "Materie prime/materiali", "Consulenze/servizi esterni"] },
+  { question: "Gestisci già un flusso di cassa?", type: "choice", options: ["Sì, con software", "Sì, con Excel", "No"] },
+
+  // SEZIONE 4 – Situazione attuale e obiettivi
+  { question: "Il tuo fatturato annuo attuale è circa?", type: "choice", options: ["Fino a 50k", "50k–100k", "100k–300k", "300k–1M", "Oltre 1M"] },
+  { question: "La tua attività è attualmente profittevole?", type: "choice", options: ["Sì, margine positivo", "Sì, ma margini bassi", "No, sto investendo", "No, sono in difficoltà"] },
+  { question: "Qual è oggi la tua maggiore difficoltà?", type: "text" },
+  { question: "Quale aspetto vorresti migliorare più urgentemente?", type: "text" },
+  { question: "Hai già in mente una direzione di crescita?", type: "text" },
+  { question: "Come ti senti rispetto alla gestione della tua attività?", type: "choice", options: ["In controllo", "Un po' confuso", "Vorrei migliorare"] },
+
+  // SEZIONE 5 – Visione e crescita
+  { question: "Se potessi migliorare una sola area in 30 giorni, quale sarebbe?", type: "text" },
+  { question: "Dove vorresti essere con la tua azienda tra 6 mesi?", type: "text" },
+  { question: "Se avessi un assistente ogni settimana, cosa dovrebbe fare per te?", type: "text" },
+  { question: "Saresti interessato a ricevere un piano d’azione e una dashboard personalizzata?", type: "choice", options: ["Sì", "Solo se semplice", "Solo se utile", "No"] },
 ];
+
+async function saveResponses(userId, answers) {
+  const { data, error } = await supabase
+    .from('questionnaire_responses')
+    .insert([{ user_id: userId, answers: answers }]);
+
+  if (error) {
+    console.error('Errore salvataggio:', error);
+    return false;
+  }
+  return true;
+}
 
 export default function Questionnaire() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const navigate = useNavigate();
 
   const handleAnswer = (answer) => {
     setAnswers({ ...answers, [current]: answer });
@@ -47,26 +70,35 @@ export default function Questionnaire() {
   };
 
   const handlePrev = () => {
-    if (current > 0) setCurrent(current - 1);
+    if (current > 0) {
+      setCurrent(current - 1);
+    }
   };
 
   const handleNext = () => {
-    if (current < questions.length - 1) setCurrent(current + 1);
+    if (current < questions.length - 1) {
+      setCurrent(current + 1);
+    }
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-    const user = await supabase.auth.getUser();
-    const { data, error } = await supabase.from("questionnaires").insert([
-      { user_id: user.data.user.id, answers: answers }
-    ]);
-    setLoading(false);
-    if (error) {
-      toast.error("Something went wrong! Please try again.");
+    setSaving(true);
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+      const success = await saveResponses(user.id, answers);
+      if (success) {
+        setShowToast(true);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
+      } else {
+        alert("Errore nel salvataggio. Riprova.");
+      }
     } else {
-      toast.success("Questionnaire submitted successfully!");
-      window.location.href = "/dashboard"; // Redirect after success
+      alert("Utente non autenticato.");
     }
+    setSaving(false);
   };
 
   const progress = ((current + 1) / questions.length) * 100;
@@ -77,32 +109,33 @@ export default function Questionnaire() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-2xl mx-auto p-4 sm:p-8"
+        className="max-w-2xl mx-auto p-4 relative"
       >
-        <h1 className="text-3xl sm:text-4xl font-bold text-primary text-center mb-6">
-          Business Assessment
+        <h1 className="text-3xl font-bold text-primary text-center mb-6">
+          Questionario
         </h1>
 
-        {/* Progress bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-6 overflow-hidden">
-          <motion.div
-            className="bg-primary h-2"
+        {/* Barra di progresso */}
+        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+          <div
+            className="bg-primary h-2.5 rounded-full transition-all"
             style={{ width: `${progress}%` }}
-            transition={{ duration: 0.4 }}
-          />
+          ></div>
         </div>
 
-        {/* Current question */}
-        <div className="bg-white rounded-2xl shadow-md p-6 sm:p-8 text-center space-y-6">
-          <h2 className="text-lg sm:text-xl font-semibold">{questions[current].question}</h2>
+        {/* Domanda corrente */}
+        <div className="bg-white rounded-2xl shadow-md p-6 text-center">
+          <h2 className="text-xl font-semibold mb-4">
+            {questions[current].question}
+          </h2>
 
           {questions[current].type === "choice" && (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col space-y-4">
               {questions[current].options.map((option, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleAnswer(option)}
-                  className="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white rounded-full px-6 py-3 transition-all text-sm sm:text-base"
+                  className="px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition"
                 >
                   {option}
                 </button>
@@ -111,42 +144,50 @@ export default function Questionnaire() {
           )}
 
           {questions[current].type === "text" && (
-            <input
-              type="text"
-              onBlur={(e) => handleAnswer(e.target.value)}
-              placeholder="Type your answer..."
-              className="border border-gray-300 rounded-lg w-full p-3"
-            />
+            <div className="flex flex-col space-y-4">
+              <input
+                type="text"
+                onBlur={(e) => handleAnswer(e.target.value)}
+                className="border border-gray-300 rounded-lg p-2"
+                placeholder="Risposta..."
+              />
+            </div>
           )}
         </div>
 
-        {/* Navigation */}
+        {/* Navigazione */}
         <div className="flex justify-between items-center mt-8">
           <button
             onClick={handlePrev}
             disabled={current === 0}
             className="flex items-center text-primary disabled:opacity-50"
           >
-            <ChevronLeft className="w-5 h-5 mr-1" /> Back
+            <ChevronLeft className="w-5 h-5 mr-2" /> Indietro
           </button>
 
-          {current === questions.length - 1 ? (
+          {current < questions.length - 1 ? (
             <button
-              onClick={handleSubmit}
-              className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-full transition"
-              disabled={loading}
+              onClick={handleNext}
+              className="flex items-center text-primary"
             >
-              {loading ? "Submitting..." : "Submit"}
+              Avanti <ChevronRight className="w-5 h-5 ml-2" />
             </button>
           ) : (
             <button
-              onClick={handleNext}
-              className="flex items-center text-primary disabled:opacity-50"
+              onClick={handleSubmit}
+              className="px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition"
             >
-              Next <ChevronRight className="w-5 h-5 ml-1" />
+              {saving ? "Salvataggio..." : "Conferma invio risposte"}
             </button>
           )}
         </div>
+
+        {/* Toast di conferma */}
+        {showToast && (
+          <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-xl shadow-lg">
+            ✅ Questionario completato!
+          </div>
+        )}
       </motion.div>
     </PageWrapper>
   );

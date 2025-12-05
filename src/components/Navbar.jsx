@@ -1,39 +1,44 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 function Navbar() {
-  const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const status = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(status);
-  }, []);
 
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-accent font-semibold underline transition-colors"
       : "hover:text-accent transition-colors";
 
-  // Nasconde la navbar se l’utente è loggato
-  if (isLoggedIn) return null;
-
   return (
     <>
       <nav className="bg-primary text-white px-6 py-4 flex justify-between items-center shadow-md">
         <h1 className="text-2xl font-bold tracking-wide">
-          <NavLink to="/" className="hover:text-accent">Libra</NavLink>
+          <NavLink to="/" className="hover:text-accent">
+            Libra
+          </NavLink>
         </h1>
+
+        {/* Desktop menu */}
         <div className="hidden md:flex space-x-6 text-sm font-medium items-center">
-          <NavLink to="/" className={linkClass}>Home</NavLink>
-          <NavLink to="/services" className={linkClass}>Services</NavLink>
-          <NavLink to="/about" className={linkClass}>About</NavLink>
-          <NavLink to="/book" className={linkClass}>Book</NavLink>
-          <NavLink to="/contact" className={linkClass}>Contact</NavLink>
-          <NavLink to="/auth" className={linkClass}>Login / Signup</NavLink>
+          <NavLink to="/" className={linkClass}>
+            Home
+          </NavLink>
+          <NavLink to="/services" className={linkClass}>
+            Services
+          </NavLink>
+          <NavLink to="/about" className={linkClass}>
+            About
+          </NavLink>
+          <NavLink to="/book" className={linkClass}>
+            Book
+          </NavLink>
+          <NavLink to="/contact" className={linkClass}>
+            Contact
+          </NavLink>
         </div>
+
+        {/* Mobile toggle */}
         <div className="md:hidden">
           <button onClick={() => setIsMobileMenuOpen(true)}>
             <Menu className="w-6 h-6" />
@@ -52,12 +57,41 @@ function Navbar() {
               <X />
             </button>
             <nav className="flex flex-col items-start space-y-6 mt-10 text-white text-lg font-medium">
-              <NavLink to="/" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
-              <NavLink to="/services" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Services</NavLink>
-              <NavLink to="/about" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
-              <NavLink to="/book" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Book</NavLink>
-              <NavLink to="/contact" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Contact</NavLink>
-              <NavLink to="/auth" className={linkClass} onClick={() => setIsMobileMenuOpen(false)}>Login / Signup</NavLink>
+              <NavLink
+                to="/"
+                className={linkClass}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/services"
+                className={linkClass}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Services
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={linkClass}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About
+              </NavLink>
+              <NavLink
+                to="/book"
+                className={linkClass}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Book
+              </NavLink>
+              <NavLink
+                to="/contact"
+                className={linkClass}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+              </NavLink>
             </nav>
           </div>
         </div>

@@ -25,8 +25,10 @@ export default function About() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="text-lg text-muted max-w-3xl mx-auto"
             >
-              Libra was founded with a belief: powerful business strategy shouldn't be a luxury.
-              Every entrepreneur deserves clarity, structure, and momentum — not just those with big budgets or big teams.
+              Libra was founded with a belief: powerful business strategy
+              shouldn&apos;t be a luxury. Every entrepreneur deserves clarity,
+              structure, and momentum — not just those with big budgets or big
+              teams.
             </motion.p>
           </section>
 
@@ -63,8 +65,11 @@ export default function About() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="text-lg text-muted mb-6"
             >
-              Libra is a strategy-first platform created to empower entrepreneurs, amplify underdog businesses, and unlock the true potential of bold ideas.
-              With roots in innovation hubs across Milan and Amsterdam, our DNA blends operational excellence with creative disruption.
+              Libra is a strategy-first consulting practice created to empower
+              entrepreneurs, amplify underdog businesses, and unlock the true
+              potential of bold ideas. With roots in innovation hubs across
+              Milan and Amsterdam, our DNA blends operational excellence with
+              creative disruption.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 10 }}
@@ -72,7 +77,9 @@ export default function About() {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="text-lg text-muted mb-8"
             >
-              Our mission is to democratize access to world-class strategic guidance, making it intuitive, actionable, and accessible — for all those who dare to build.
+              Our mission is to democratize access to world-class strategic
+              guidance, making it intuitive, actionable, and accessible — for
+              all those who dare to build.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 10 }}
@@ -80,7 +87,8 @@ export default function About() {
               transition={{ delay: 0.6, duration: 0.6 }}
               className="text-lg font-semibold text-accent"
             >
-              Libra isn't just a service. It's a movement for the builders of tomorrow.
+              Libra isn&apos;t just a service. It&apos;s a movement for the
+              builders of tomorrow.
             </motion.p>
           </section>
         </PageWrapper>
@@ -94,16 +102,16 @@ const beliefsData = [
   {
     title: "Empowering Visionaries",
     text: "Too many great ideas fade because they lack structure or support. Libra transforms intuition into execution.",
-    icon: <Sparkles className="w-8 h-8 text-accent mb-4" />,
+    icon: <Sparkles className="w-8 h-8 text-accent mb-4" />
   },
   {
     title: "Making Strategy Simple",
-    text: "We decode complex challenges into clear, actionable steps — blending human insight with AI precision.",
-    icon: <Rocket className="w-8 h-8 text-accent mb-4" />,
+    text: "We decode complex challenges into clear, actionable steps — combining analytical thinking with practical execution.",
+    icon: <Rocket className="w-8 h-8 text-accent mb-4" />
   },
   {
     title: "Democratizing Expertise",
     text: "High-level consulting should be accessible to every founder — not just Fortune 500 giants.",
-    icon: <HeartHandshake className="w-8 h-8 text-accent mb-4" />,
-  },
+    icon: <HeartHandshake className="w-8 h-8 text-accent mb-4" />
+  }
 ];
