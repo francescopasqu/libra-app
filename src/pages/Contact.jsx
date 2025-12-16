@@ -87,10 +87,10 @@ export default function Contact() {
           Email
         </p>
         <a
-          href="mailto:francescopasquariello94@gmail.com"
+          href="mailto:francescopasquariello"
           className="font-semibold text-[#1d3557] hover:text-accent"
         >
-          francescopasquariello94@gmail.com
+          francescopasquariello
         </a>
       </div>
     </div>
