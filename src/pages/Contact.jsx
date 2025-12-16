@@ -72,51 +72,52 @@ export default function Contact() {
 
           {/* QUICK CONTACT CARDS */}
           <motion.section
-            className="max-w-3xl mx-auto mb-12 space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <div className="bg-white rounded-2xl shadow-md border border-slate-200 px-6 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="bg-sky-100 rounded-full p-3">
-                  <Mail className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-gray-500">
-                    Email
-                  </p>
-                  <a
-                    href="mailto:info@libra.com"
-                    className="font-semibold text-[#1d3557] hover:text-accent"
-                  >
-                    info@libra.com
-                  </a>
-                </div>
-              </div>
-            </div>
+  className="max-w-3xl mx-auto mb-12 space-y-4"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.2, duration: 0.6 }}
+>
+  <div className="bg-white rounded-2xl shadow-md border border-slate-200 px-6 py-4 flex items-center justify-between">
+    <div className="flex items-center gap-4">
+      <div className="bg-sky-100 rounded-full p-3">
+        <Mail className="w-6 h-6 text-accent" />
+      </div>
+      <div>
+        <p className="text-xs uppercase tracking-wide text-gray-500">
+          Email
+        </p>
+        <a
+          href="mailto:francescopasquariello94@gmail.com"
+          className="font-semibold text-[#1d3557] hover:text-accent"
+        >
+          francescopasquariello94@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
 
-            <div className="bg-white rounded-2xl shadow-md border border-slate-200 px-6 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="bg-sky-100 rounded-full p-3">
-                  <Instagram className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-gray-500">
-                    Instagram
-                  </p>
-                  <a
-                    href="https://instagram.com/libra.consulting"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-semibold text-[#1d3557] hover:text-accent"
-                  >
-                    @libra.consulting
-                  </a>
-                </div>
-              </div>
-            </div>
-          </motion.section>
+  <div className="bg-white rounded-2xl shadow-md border border-slate-200 px-6 py-4 flex items-center justify-between">
+    <div className="flex items-center gap-4">
+      <div className="bg-sky-100 rounded-full p-3">
+        <Instagram className="w-6 h-6 text-accent" />
+      </div>
+      <div>
+        <p className="text-xs uppercase tracking-wide text-gray-500">
+          Instagram
+        </p>
+        <a
+          href="https://instagram.com/francesco.pasqu"
+          target="_blank"
+          rel="noreferrer"
+          className="font-semibold text-[#1d3557] hover:text-accent"
+        >
+          @francesco.pasqu
+        </a>
+      </div>
+    </div>
+  </div>
+</motion.section>
+
 
           {/* CONTACT FORM */}
           <motion.section
